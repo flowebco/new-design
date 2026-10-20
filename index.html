@@ -71,7 +71,7 @@
         display: flex;
         flex-direction: column;
         height: 100svh;
-        timeline-scope: --services-track, --section-landing, --section-services, --section-products, --section-footer;
+        timeline-scope: --services-track, --section-landing, --section-services, --section-products, --section-projects, --section-footer;
         color: var(--text-primary);
         margin: 0;
         overflow: hidden;
@@ -159,6 +159,7 @@
       #landing    { view-timeline-name: --section-landing; }
       #services   { view-timeline-name: --section-services; }
       #products   { view-timeline-name: --section-products; }
+      #projects   { view-timeline-name: --section-projects; }
       #footer-section { view-timeline-name: --section-footer; }
 
       @supports (animation-timeline: view()) {
@@ -238,10 +239,43 @@
         100% { opacity: 0; transform: translateY(15px) scale(0.92); }
       }
 
-      #landing { flex-direction: row; }
-      #landing img { width: min(75vw, 275px); height: auto; filter: drop-shadow(rgba(95,157,231,0.45) 10px 10px 14px) drop-shadow(rgb(255,255,255) -10px -10px 14px); aspect-ratio: 1; object-fit: contain; flex: 1; }
-      .hero-text { display: flex; flex: 2; gap: 1rem; align-items: center; justify-content: center; align-content: flex-start; flex-wrap: wrap; }
-      .hero-text .actions { gap: 1.4rem; display: flex; }
+      #landing {
+        position: relative;
+        width: 100%;
+        max-width: none;
+        min-height: calc(100svh - 3rem);
+        box-sizing: border-box;
+        margin: 0;
+        padding: clamp(2rem, 5vw, 5rem) clamp(1.5rem, 6vw, 6rem);
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+        background: linear-gradient(90deg, rgba(229, 237, 245, 0.92) 0%, rgba(229, 237, 245, 0.55) 45%, rgba(229, 237, 245, 0) 70%), url("new_version/hero.jpg") right center / cover no-repeat, var(--bg);
+      }
+      #landing .hero-text { order: 2; display: flex; flex-direction: column; flex: 1 1 520px; max-width: 620px; align-items: flex-start; justify-content: center; gap: 2rem; text-align: right; }
+      #landing img { order: 1; width: min(34vw, 420px); height: auto; aspect-ratio: 1; object-fit: contain; flex: 0 1 auto; filter: drop-shadow(rgba(95,157,231,0.45) 12px 12px 18px) drop-shadow(rgb(255,255,255) -10px -10px 14px); }
+      .landing-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 30px; background: var(--bg); box-shadow: var(--pressed); color: var(--text-secondary); font-size: 0.85rem; font-weight: 600; }
+      .landing-badge::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(231, 90, 8, 0.2); }
+      .landing-headline { align-items: flex-start; text-align: right; margin: 0; }
+      .fixed-part { text-align: right; font-size: clamp(1.6rem, 3.6vw, 3.4rem); }
+      .dynamic-text-item { text-align: right; }
+      .hero-text .actions { gap: 1.2rem; display: flex; flex-wrap: wrap; }
+      .hero-text .actions .btn { padding: 0.9rem 1.8rem; font-size: 1rem; }
+      .hero-text .actions .btn:first-child { background-color: var(--accent); color: #fff; border: none; }
+      .hero-text .actions .btn:first-child:hover { background-color: var(--accent-darken); color: #fff; }
+
+      /* Projects & honours */
+      #projects { gap: 2.5rem; }
+      .projects-block { display: flex; flex-direction: column; gap: 1.6rem; width: 100%; }
+      .projects-subtitle { display: flex; align-items: center; gap: 1rem; font-size: 1.25rem; font-weight: 700; color: var(--text-primary); padding: 0; margin: 0; }
+      .projects-subtitle::after { content: ''; flex: 1; height: 2px; border-radius: 2px; background: linear-gradient(90deg, var(--accent), transparent); }
+      .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.8rem; width: 100%; }
+      .gallery-card { margin: 0; padding: 0.8rem; background: var(--bg); border-radius: var(--radius); box-shadow: var(--raised); border: 1px solid rgba(255,255,255,0.3); display: flex; flex-direction: column; gap: 0.8rem; transition: var(--transition); }
+      .gallery-card:hover { box-shadow: var(--hero); transform: translateY(-3px); }
+      .gallery-card img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 18px; box-shadow: var(--pressed); background: #fff; }
+      .gallery-card.is-honor img { object-fit: contain; padding: 0.6rem; box-sizing: border-box; }
+      .gallery-card figcaption { font-size: 0.88rem; font-weight: 600; line-height: 1.8; color: var(--text-primary); text-align: center; padding: 0 0.4rem 0.4rem; }
 
       .products-grid { display: flex; gap: 3.5rem; width: 100%; flex-wrap: wrap; justify-content: center; }
       .product-card { background: var(--bg); padding: 0 0 2rem; border-radius: var(--radius); box-shadow: var(--raised); transition: var(--transition); text-align: center; display: flex; flex-direction: column; align-items: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.3); position: relative; max-width: 280px; flex: 280px; align-content: center; justify-content: space-between; content-visibility: auto; contain-intrinsic-size: 500px; }
@@ -402,8 +436,19 @@
         .service-card-new { padding: 0.8rem 1rem; }
         .service-card-new h3 { font-size: 0.95rem; margin-bottom: 0.25rem; }
         .service-card-new p { font-size: 0.75rem; line-height: 1.5; }
-        #landing { flex-direction: column; }
-        #landing img { order: -1; }
+        #landing {
+          flex-direction: column;
+          justify-content: center;
+          min-height: auto;
+          padding: 2.5rem 1.25rem;
+          background: linear-gradient(180deg, rgba(229, 237, 245, 0.7) 0%, rgba(229, 237, 245, 0.9) 60%, var(--bg) 100%), url("new_version/hero.jpg") center top / cover no-repeat, var(--bg);
+        }
+        #landing .hero-text { order: 2; align-items: center; text-align: center; max-width: none; }
+        #landing .landing-headline { align-items: center; text-align: center; }
+        .fixed-part, .dynamic-text-item { text-align: center; }
+        #landing .hero-text .actions { justify-content: center; }
+        #landing img { order: -1; width: min(60vw, 220px); }
+        .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
         .newsletter { flex-direction: column; }
         .contact-info-card { flex-direction: column; align-items: center; gap: 1rem; padding: 1.5rem; }
       }
@@ -429,6 +474,7 @@
       <ul>
         <li><a href="#services" style="--section-timeline: --section-services">خدمات</a></li>
         <li><a href="#products" style="--section-timeline: --section-products">محصولات</a></li>
+        <li><a href="#projects" style="--section-timeline: --section-projects">پروژه‌ها</a></li>
         <li><a href="#footer-section" style="--section-timeline: --section-footer">ارتباط</a></li>
       </ul>
     </nav>
@@ -436,6 +482,7 @@
   <main>
     <section id="landing">
       <div class="hero-text">
+        <span class="landing-badge">۱۸ سال سابقه در طراحی و ساخت خطوط تولید</span>
         <h1 class="landing-headline">
           <span class="fixed-part">طراحی، ساخت، نصب و راه‌اندازی</span>
           <span class="dynamic-part-wrapper">
@@ -449,7 +496,7 @@
           <a class="btn" href="#products">مشاهده محصولات</a>
         </div>
       </div>
-      <img src="https://hot.ir-central1.arvanstorage.ir/pulp/assets/logo.avif" fetchpriority="high" width="275" height="275" alt="پالپ ایران - طراح خطوط تولید خمیر کاغذ">
+      <img src="new_version/logo.png" fetchpriority="high" width="420" height="420" alt="پالپ ایران - طراح خطوط تولید خمیر کاغذ">
     </section>
     <section id="services">
       <h2 class="fade-up">خدمات <span class="accent-text">تخصصی</span></h2>
@@ -608,6 +655,54 @@
           <button class="product-cta" data-product="خمیر از باگاس" command="show-popover"
             commandfor="support-morph-container">درخواست مشاوره</button>
         </article>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2 class="fade-up">پروژه‌ها و <span class="accent-text">افتخارات</span></h2>
+      <div class="projects-block">
+        <h3 class="projects-subtitle fade-up">پروژه‌های اجرا شده</h3>
+        <div class="gallery-grid">
+          <figure class="gallery-card fade-up">
+            <img src="new_version/portfolio.jpg" alt="نمای خط تولید فلاف پالپ در سالن صنعتی" loading="lazy" decoding="async" width="1536" height="1024">
+            <figcaption>خط تولید فلاف پالپ در حال بهره‌برداری</figcaption>
+          </figure>
+          <figure class="gallery-card fade-up">
+            <img src="new_version/portfolio2.jpg" alt="بخش خشک‌کن و تجهیزات خط تولید" loading="lazy" decoding="async" width="1248" height="832">
+            <figcaption>بازدید فنی از خط تولید</figcaption>
+          </figure>
+          <figure class="gallery-card fade-up">
+            <img src="new_version/portfolio3.jpg" alt="نمای داخلی سالن خط تولید پالپ" loading="lazy" decoding="async" width="1080" height="720">
+            <figcaption>نمای داخلی سالن تولید</figcaption>
+          </figure>
+          <figure class="gallery-card fade-up">
+            <img src="new_version/portfolio-teamwork.jpg" alt="تیم فنی در حال راه‌اندازی ماشین‌آلات" loading="lazy" decoding="async" width="1568" height="1046">
+            <figcaption>تیم فنی در حال نصب و راه‌اندازی</figcaption>
+          </figure>
+        </div>
+        <h3 class="projects-subtitle fade-up">افتخارات و گواهی‌ها</h3>
+        <div class="gallery-grid">
+          <figure class="gallery-card is-honor fade-up">
+            <img src="new_version/trophy.png" alt="لوح تقدیر نقش مدیران ارزش‌آفرین در توسعه ملی" loading="lazy" decoding="async" width="1080" height="1080">
+            <figcaption>لوح تقدیر نقش مدیران ارزش‌آفرین در توسعه ملی</figcaption>
+          </figure>
+          <figure class="gallery-card is-honor fade-up">
+            <img src="new_version/expo.jpg" alt="حضور در غرفه نمایشگاه تخصصی پالپ ایران" loading="lazy" decoding="async" width="1568" height="1568">
+            <figcaption>حضور در نمایشگاه تخصصی</figcaption>
+          </figure>
+          <figure class="gallery-card is-honor fade-up">
+            <img src="new_version/alliance.jpg" alt="گواهی‌نامه شرکت در سمینار آموزشی مدیریت کیفیت و مشتری‌مداری" loading="lazy" decoding="async" width="1184" height="864">
+            <figcaption>گواهی‌نامه سمینار آموزشی مدیریت کیفیت و مشتری‌مداری</figcaption>
+          </figure>
+          <figure class="gallery-card is-honor fade-up">
+            <img src="new_version/academy.jpg" alt="گواهی دوره مدیریتی Deutsche Management Akademie Niedersachsen" loading="lazy" decoding="async" width="1100" height="1100">
+            <figcaption>گواهی دوره مدیریتی Deutsche Management Akademie Niedersachsen</figcaption>
+          </figure>
+          <figure class="gallery-card is-honor fade-up">
+            <img src="new_version/trainning.jpg" alt="گواهی آموزشی TÜV International" loading="lazy" decoding="async" width="1232" height="832">
+            <figcaption>گواهی آموزشی TÜV International</figcaption>
+          </figure>
+        </div>
       </div>
     </section>
 
